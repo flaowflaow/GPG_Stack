@@ -106,12 +106,12 @@ EOF
 
 # Configurer le syslog pour envoyer les logs à la machine graylog
 sudo bash -c 'cat <<EOF > /etc/rsyslog.d/10-graylog.conf
-*.* @192.168.33.10:5514;RSYSLOG_SyslogProtocol23Format
+*.* @192.168.200.10:5514;RSYSLOG_SyslogProtocol23Format
 EOF'
 
 # Configurer Nginx pour envoyer les logs d'accès à Graylog
-sudo sed -i '/access_log \/var\/log\/nginx\/access.log;/a\ \ \ \ \ \ \ \ access_log syslog:server=192.168.33.10:5515,tag=nginx_access;' /etc/nginx/nginx.conf
-sudo sed -i '/error_log \/var\/log\/nginx\/error.log;/a\ \ \ \ \ \ \ \ error_log syslog:server=192.168.33.10:5516,tag=nginx_error;' /etc/nginx/nginx.conf
+sudo sed -i '/access_log \/var\/log\/nginx\/access.log;/a\ \ \ \ \ \ \ \ access_log syslog:server=192.168.200.10:5515,tag=nginx_access;' /etc/nginx/nginx.conf
+sudo sed -i '/error_log \/var\/log\/nginx\/error.log;/a\ \ \ \ \ \ \ \ error_log syslog:server=192.168.200.10:5516,tag=nginx_error;' /etc/nginx/nginx.conf
 
 
 ### Finalisation de l'installation
