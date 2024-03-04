@@ -1,4 +1,5 @@
 #!/bin/bash
+# Pour Ubuntu Focal 64
 # Script d'installation d'un serveur de supervision Grafana.
 # Services : Grafana, Prometheus & Graylog
 
@@ -10,7 +11,7 @@ sudo apt install apt-transport-https software-properties-common wget curl unzip 
 # Ajout des clés et dépôts de Grafana
 mkdir -p /etc/apt/keyrings/ && \
 wget -vO - https://packages.grafana.com/gpg.key | sudo apt-key add - && \
-sudo add-apt-repository "deb https://packages.grafana.com/oss/deb stable main"
+sudo add-apt-repository "deb https://packages.grafana.com/oss/deb stable main" -y
       
 # Installer grafana
 sudo apt-get update && sudo apt-get install -y grafana
@@ -143,6 +144,9 @@ EOF
 # Installer les dépendances
 sudo apt-get update
 sudo apt-get install -y apt-transport-https openjdk-8-jre-headless uuid-runtime pwgen wget curl
+echo "deb http://security.ubuntu.com/ubuntu focal-security main" | sudo tee /etc/apt/sources.list.d/focal-security.list
+sudo apt-get update 
+sudo apt-get install libssl1.1 -y
 # Ajouter le dépôt mongodb
 wget -qO - https://www.mongodb.org/static/pgp/server-4.4.asc | sudo apt-key add -
 echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu bionic/mongodb-org/4.4 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.4.list
@@ -180,10 +184,9 @@ sleep 5
 sudo systemctl enable prometheus
 sudo systemctl restart prometheus
 sleep 5
-sudo systemctl enable graylog
-sudo systemctl restart graylog
 sudo systemctl enable mongod.service
 sudo systemctl restart mongod.service
+sleep 5
 sudo systemctl enable elasticsearch.service
 sudo systemctl restart elasticsearch.service
 sleep 10
